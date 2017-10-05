@@ -5,21 +5,20 @@ using UnityEngine;
 public class CameraMove : MonoBehaviour {
 
     public GameObject target;
-    public float moveSpeed;
+    public float damping = 1;
     Vector3 offset;
-    Quaternion quaternion;
-	void Update () {
-		Move();
-	}
 
-    private void Move()
+    void Start()
     {
-        offset = (target.transform.position - transform.position).normalized;
-        quaternion = Quaternion.LookRotation(offset);
-        quaternion.x = transform.rotation.x;
-        quaternion.z = transform.rotation.z;
-        transform.rotation = Quaternion.Slerp(transform.rotation, quaternion, Time.deltaTime * 100);
-        transform.position = Vector3.Slerp(transform.position, target.transform.position, Time.deltaTime );
+        offset = transform.position - target.transform.position;
+    }
 
+    void LateUpdate()
+    {
+        Vector3 desiredPosition = target.transform.position + offset;
+        Vector3 position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * damping);
+        transform.position = position;
+
+        transform.LookAt(target.transform.position);
     }
 }
