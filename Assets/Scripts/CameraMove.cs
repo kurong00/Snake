@@ -8,7 +8,7 @@ public class CameraMove : MonoBehaviour {
     public float moveSpeed;
     Vector3 offset;
     Quaternion quaternion;
-	void LateUpdate () {
+	void Update () {
 		Move();
 	}
 

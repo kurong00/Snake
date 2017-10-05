@@ -4,95 +4,60 @@ using UnityEngine;
 
 public class SnakeMove : MonoBehaviour
 {
+    public List<Transform> bodyParts = new List<Transform>();
+    public float minDistanceBetweenEachPart = 3f;
+    public int startBodySize;
+    public float moveSpeed = 8;
+    public float rotateSpeed = 250;
+    GameObject bodyPrefab;
     float distanceBetweenBodyParts;
-    List<Transform> snakeBodyList = new List<Transform>();
-    float snakeSpeed = 5.0f;
-    float rotateAngles = 90.0f;
     float currentSpeed;
-    Quaternion initRotate;
-    GameObject bodyPart;
     Transform currentBodyPart;
-    Transform prevBodyPart;
-    public float minDistance;
+    Transform previousBodyPart;
     void Start()
     {
-        InitSnakeData();
-        bodyPart = Resources.Load("bodyPart") as GameObject;
-        for(int i = 0; i < 3; i++)
+        bodyPrefab = Resources.Load("bodyPart") as GameObject;
+        for (int i = 1; i < startBodySize; i++)
         {
             AddBodyPart();
         }
     }
-
-    void InitSnakeData()
-    {
-        snakeBodyList.Insert(0, gameObject.transform);
-        initRotate = snakeBodyList[0].rotation;
-    }
-
     void Update()
     {
         Move();
     }
 
-    void AddBodyPart()
-    {
-        if (snakeBodyList.Count != 0)
-        {
-            Vector3 pos = new Vector3(snakeBodyList[snakeBodyList.Count - 1].position.x,
-                snakeBodyList[snakeBodyList.Count - 1].position.y, snakeBodyList[snakeBodyList.Count - 1].position.z);
-            GameObject go = Instantiate(bodyPart, pos, 
-                snakeBodyList[snakeBodyList.Count - 1].rotation);
-            go.transform.SetParent(snakeBodyList[0].transform);
-            snakeBodyList.Add(go.transform);
-        }
-    }
-
     void Move()
     {
-        currentSpeed = snakeSpeed;
+        currentSpeed = moveSpeed;
         if (Input.GetKey(KeyCode.UpArrow))
             currentSpeed *= 2;
-        snakeBodyList[0].Translate(snakeBodyList[0].forward * currentSpeed * Time.deltaTime,Space.World);
-        if (Input.GetKey(KeyCode.LeftArrow))
+        bodyParts[0].Translate(bodyParts[0].forward * currentSpeed * Time.smoothDeltaTime, Space.World);
+        if (Input.GetAxis("Horizontal") != 0)
+            bodyParts[0].Rotate(Vector3.up * rotateSpeed * Time.deltaTime * Input.GetAxis("Horizontal"));
+        if (bodyParts.Count != 0)
         {
-            StopAllCoroutines();
-            StartCoroutine(RotateSnakeHead(rotateAngles-180));
-            rotateAngles -= 90;
-            snakeBodyList[0].Rotate(Vector3.up * 90 * Time.deltaTime);
-        }
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            StopAllCoroutines();
-            StartCoroutine(RotateSnakeHead(rotateAngles));
-            rotateAngles += 90;
-            snakeBodyList[0].Rotate(Vector3.up * -90 * Time.deltaTime);
-        }
-        //if (Input.GetAxis("Horizontal") !=0)
-            //snakeBodyList[0].Rotate(Vector3.up * 90 * Time.deltaTime * Input.GetAxis("Horizontal"));
-        for (int i = 1; i < snakeBodyList.Count; i++)
-        {
-            distanceBetweenBodyParts = Vector3.Distance(snakeBodyList[i].position , snakeBodyList[i - 1].position);
-            float time = Time.deltaTime * (distanceBetweenBodyParts / 0.25f) * currentSpeed;
-            if (time > 0.5)
-                time = 0.5f;
-            Vector3 newPos = snakeBodyList[i - 1].position;
-            //newPos.y = snakeBodyList[0].position.y;
-            newPos.z = snakeBodyList[i - 1].position.z - 1.8f;
-            snakeBodyList[i].position = Vector3.Slerp(snakeBodyList[i].position,
-                newPos, time);
-            snakeBodyList[i].rotation = Quaternion.Slerp(snakeBodyList[i].rotation,
-                snakeBodyList[i - 1].rotation, time);
+            for (int i = 1; i < bodyParts.Count; i++)
+            {
+                currentBodyPart = bodyParts[i];
+                previousBodyPart = bodyParts[i - 1];
+                distanceBetweenBodyParts = Vector3.Distance(previousBodyPart.position, currentBodyPart.position);
+                Vector3 newPos = previousBodyPart.position;
+                newPos.y = bodyParts[0].position.y;
+                float time = Time.deltaTime * distanceBetweenBodyParts / minDistanceBetweenEachPart * currentSpeed;
+                if (time > 0.5)
+                    time = 0.5f;
+                currentBodyPart.position = Vector3.Slerp(currentBodyPart.position, newPos, time);
+                currentBodyPart.rotation = Quaternion.Slerp(currentBodyPart.rotation, previousBodyPart.rotation, time);
+            }
         }
     }
 
-    IEnumerator RotateSnakeHead(float amount)
+    void AddBodyPart()
     {
-        Quaternion angle = Quaternion.Euler(0, amount, 0) * initRotate;
-        while (snakeBodyList[0].rotation != angle)
-        {
-            snakeBodyList[0].rotation = Quaternion.Lerp(snakeBodyList[0].rotation, angle, Time.deltaTime);
-            yield return null;
-        }
+        Transform newBody = (Instantiate(bodyPrefab, bodyParts[bodyParts.Count - 1].position,
+            bodyParts[bodyParts.Count - 1].rotation) as GameObject).transform;
+        newBody.SetParent(transform);
+        bodyParts.Add(newBody);
     }
 }

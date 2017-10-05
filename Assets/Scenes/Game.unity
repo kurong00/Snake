@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.38949707, g: 0.57401645, b: 0.5907607, a: 1}
+  m_IndirectSpecularColor: {r: 0.38949567, g: 0.57401466, b: 0.5907588, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -802,6 +802,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 528683733}
+  - component: {fileID: 528683734}
   m_Layer: 0
   m_Name: Snake
   m_TagString: Untagged
@@ -821,30 +822,30 @@ Transform:
   m_Children:
   - {fileID: 536228108}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &536228107 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1414005697703218, guid: d6d463c13df773742ae060d63d74ccea,
-    type: 2}
-  m_PrefabInternal: {fileID: 808079564}
---- !u!4 &536228108 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 4699841767234010, guid: d6d463c13df773742ae060d63d74ccea,
-    type: 2}
-  m_PrefabInternal: {fileID: 808079564}
---- !u!114 &536228111
+--- !u!114 &528683734
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 536228107}
+  m_GameObject: {fileID: 528683732}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7eb248c4a881adb4594eedcc34670d33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDistance: 0.03
+  bodyParts:
+  - {fileID: 536228108}
+  minDistanceBetweenEachPart: 3
+  startBodySize: 5
+  moveSpeed: 8
+  rotateSpeed: 250
+--- !u!4 &536228108 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4699841767234010, guid: d6d463c13df773742ae060d63d74ccea,
+    type: 2}
+  m_PrefabInternal: {fileID: 808079564}
 --- !u!1001 &557933631
 Prefab:
   m_ObjectHideFlags: 0
@@ -1578,7 +1579,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4699841767234010, guid: d6d463c13df773742ae060d63d74ccea, type: 2}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1414005697703218, guid: d6d463c13df773742ae060d63d74ccea, type: 2}
       propertyPath: m_Name
@@ -3078,10 +3079,10 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1354594866}
   m_LocalRotation: {x: 0.2174673, y: 0.07728842, z: -0.022425164, w: 0.9727444}
-  m_LocalPosition: {x: -10.577912, y: 32.088024, z: -57.06505}
+  m_LocalPosition: {x: 119.92209, y: 30.044384, z: -154.06505}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 536228108}
+  m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 25.249, y: 8.944, z: -0.634}
 --- !u!114 &1354594872
@@ -3096,7 +3097,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 528683732}
-  moveSpeed: 1
+  moveSpeed: 10
 --- !u!1001 &1355587879
 Prefab:
   m_ObjectHideFlags: 0
