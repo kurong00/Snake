@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraMove : MonoBehaviour {
 
     public GameObject target;
-    public float damping = 1;
+    public float damping = 2;
     Vector3 offset;
 
     void Start()
@@ -18,7 +18,6 @@ public class CameraMove : MonoBehaviour {
         Vector3 desiredPosition = target.transform.position + offset;
         Vector3 position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * damping);
         transform.position = position;
-
         transform.LookAt(target.transform.position);
     }
 }
