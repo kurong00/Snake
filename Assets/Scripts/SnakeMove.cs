@@ -29,12 +29,36 @@ public class SnakeMove : MonoBehaviour
 
     void Move()
     {
-        currentSpeed = moveSpeed;
+        /*currentSpeed = moveSpeed;
         if (Input.GetKey(KeyCode.UpArrow))
             currentSpeed *= 2;
         bodyParts[0].Translate(bodyParts[0].forward * currentSpeed * Time.smoothDeltaTime, Space.World);
         if (Input.GetAxis("Horizontal") != 0)
             bodyParts[0].Rotate(Vector3.up * rotateSpeed * Time.deltaTime * Input.GetAxis("Horizontal"));
+        if (bodyParts.Count != 0)
+        {
+            for (int i = 1; i < bodyParts.Count; i++)
+            {
+                currentBodyPart = bodyParts[i];
+                previousBodyPart = bodyParts[i - 1];
+                distanceBetweenBodyParts = Vector3.Distance(previousBodyPart.position, currentBodyPart.position);
+                Vector3 newPos = previousBodyPart.position;
+                newPos.y = bodyParts[0].position.y;
+                float time = Time.deltaTime * distanceBetweenBodyParts / minDistanceBetweenEachPart * currentSpeed;
+                if (time > 0.5)
+                    time = 0.5f;
+                currentBodyPart.position = Vector3.Slerp(currentBodyPart.position, newPos, time);
+                currentBodyPart.rotation = Quaternion.Slerp(currentBodyPart.rotation, previousBodyPart.rotation, time);
+            }
+        }*/
+        currentSpeed = moveSpeed;
+        if (JoyStick.instance.V > 0)
+            currentSpeed *= 2;
+        bodyParts[0].Translate(bodyParts[0].forward * currentSpeed * Time.smoothDeltaTime, Space.World);
+        if (JoyStick.instance.H > 0)
+            bodyParts[0].Rotate(Vector3.up * rotateSpeed * Time.deltaTime);
+        if (JoyStick.instance.H < 0)
+            bodyParts[0].Rotate(-Vector3.up * rotateSpeed * Time.deltaTime);
         if (bodyParts.Count != 0)
         {
             for (int i = 1; i < bodyParts.Count; i++)
