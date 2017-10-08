@@ -4055,8 +4055,8 @@ MonoBehaviour:
   bodyParts:
   - {fileID: 536228108}
   minDistanceBetweenEachPart: 3
-  startBodySize: 5
-  moveSpeed: 10
+  startBodySize: 10
+  moveSpeed: 5
   rotateSpeed: 250
 --- !u!1001 &530266041
 Prefab:
