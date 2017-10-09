@@ -75,6 +75,7 @@ public class SnakeMove : MonoBehaviour
             bodyParts[bodyParts.Count - 1].rotation) as GameObject).transform;
         newBody.SetParent(transform);
         bodyParts.Add(newBody);
+        moveSpeed += bodyParts.Count / 8;
     }
     
 }

@@ -25,8 +25,8 @@ public class SpawnFood : MonoBehaviour {
     void SpawnRandomFood()
     {
         index = Random.Range(0, 6);
-        Vector3 pos = new Vector3(Random.Range(0, spawnArea[index].transform.localScale.x),4,
-            Random.Range(0, spawnArea[index].transform.localScale.z));
+        Vector3 pos = new Vector3(Random.Range(spawnArea[index].transform.position.x,0),4,
+            Random.Range(spawnArea[index].transform.position.z,0));
         GameObject food = GameObject.Instantiate(prefab,pos,Quaternion.identity);
         foodCount++;
         food.transform.SetParent(spawnArea[index].transform);
