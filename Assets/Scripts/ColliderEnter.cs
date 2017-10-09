@@ -8,5 +8,11 @@ public class ColliderEnter : MonoBehaviour {
     {
         if (other.tag == "barrier" || other.tag == "bodyPart")
             Debug.Log("enter");
+        if (other.tag == "food")
+        {
+            Destroy(other.gameObject);
+            SnakeMove.instance.AddBodyPart();
+            SpawnFood.instance.DecreaseFood();
+        }
     }
 }

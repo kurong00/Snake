@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SnakeMove : MonoBehaviour
 {
+    public static SnakeMove instance = null;
     public List<Transform> bodyParts = new List<Transform>();
     public float minDistanceBetweenEachPart = 3f;
     public int startBodySize;
@@ -14,6 +15,19 @@ public class SnakeMove : MonoBehaviour
     float currentSpeed;
     Transform currentBodyPart;
     Transform previousBodyPart;
+    void Awake()
+    {
+
+        if (instance != null)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+
+    }
     void Start()
     {
         bodyPrefab = Resources.Load("bodyPart") as GameObject;
@@ -55,7 +69,7 @@ public class SnakeMove : MonoBehaviour
         }
     }
 
-    void AddBodyPart()
+    public void AddBodyPart()
     {
         Transform newBody = (Instantiate(bodyPrefab, bodyParts[bodyParts.Count - 1].position,
             bodyParts[bodyParts.Count - 1].rotation) as GameObject).transform;
