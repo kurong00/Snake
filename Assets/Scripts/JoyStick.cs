@@ -8,24 +8,24 @@ public class JoyStick : MonoBehaviour, IDragHandler, IEndDragHandler
 
     public static JoyStick instance = null;
 
-    public float _speed = 6f;
-    
+    public float dragSpeed = 6f;
+
     public float R = 15f;
 
-    private float _r;
+    private float screen;
 
     private Vector2 centerPos;
 
-    private float _h;
-    private float _v;
+    private float horizon;
+    private float vertical;
 
-    public float H
+    public float Horizon
     {
-        get { return _h; }
+        get { return horizon; }
     }
-    public float V
+    public float Vertical
     {
-        get { return _v; }
+        get { return vertical; }
     }
 
     void Awake()
@@ -40,64 +40,37 @@ public class JoyStick : MonoBehaviour, IDragHandler, IEndDragHandler
             instance = this;
         }
 
-
-
     }
     void Start()
     {
-
-        _r = 1f * Screen.width / 960f * R; //this to calculate the scale of screen
-
+        screen = 1f * Screen.width / 960f * R; 
         centerPos = GetComponent<RectTransform>().position;
-
     }
-
-
-
-
-
-
-    void SetHAndF(Vector2 pos)
-    { //Horizontall and Vertical axes
-
+    void GetAxis(Vector2 pos)
+    { 
         Vector2 diff = pos - centerPos;
         float distance = diff.magnitude;
-
-
-        if (distance > _r)
+        if (distance > screen)
         {
-            pos = centerPos + diff / distance * _r;
+            pos = centerPos + diff / distance * screen;
 
         }
         GetComponent<RectTransform>().position = pos;
-
-
         Vector2 move = pos - centerPos;
-
-        _h = move.x;
-        _v = move.y;
-
+        horizon = move.x;
+        vertical = move.y;
     }
 
     public void OnDrag(PointerEventData data)
     {
-
         Vector2 newPos = new Vector2(data.position.x - 20f, data.position.y - 20f);
-
-        //clamp the sprite
-
-        SetHAndF(newPos);
-
-
-
+        GetAxis(newPos);
     }
 
     public void OnEndDrag(PointerEventData data)
     {
         GetComponent<RectTransform>().position = centerPos;
-        SetHAndF(centerPos);
-
-
+        GetAxis(centerPos);
     }
 
 }

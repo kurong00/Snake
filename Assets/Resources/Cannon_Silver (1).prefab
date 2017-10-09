@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 136808792110748282}
   m_Layer: 0
   m_Name: Cannon_Silver (1)
-  m_TagString: Untagged
+  m_TagString: barrier
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
