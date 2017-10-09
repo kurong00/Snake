@@ -94,8 +94,6 @@ public class JoyStick : MonoBehaviour, IDragHandler, IEndDragHandler
 
     public void OnEndDrag(PointerEventData data)
     {
-
-        Debug.Log("End Drag" + centerPos);
         GetComponent<RectTransform>().position = centerPos;
         SetHAndF(centerPos);
 
