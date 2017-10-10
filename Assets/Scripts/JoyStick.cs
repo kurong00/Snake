@@ -18,6 +18,10 @@ public class JoyStick : MonoBehaviour, IDragHandler, IEndDragHandler
 
     private float horizon;
     private float vertical;
+    public Vector2 CenterPos
+    {
+        set { centerPos = value; }
+    }
 
     public float Horizon
     {
