@@ -15,6 +15,7 @@ public class SnakeMove : MonoBehaviour
     float currentSpeed;
     Transform currentBodyPart;
     Transform previousBodyPart;
+    
     void Awake()
     {
 
@@ -30,6 +31,7 @@ public class SnakeMove : MonoBehaviour
     }
     void Start()
     {
+        
         bodyPrefab = Resources.Load("bodyPart") as GameObject;
         for (int i = 1; i < startBodySize; i++)
         {
@@ -71,6 +73,7 @@ public class SnakeMove : MonoBehaviour
 
     public void AddBodyPart()
     {
+        
         Transform newBody = (Instantiate(bodyPrefab, bodyParts[bodyParts.Count - 1].position,
             bodyParts[bodyParts.Count - 1].rotation) as GameObject).transform;
         newBody.SetParent(transform);
