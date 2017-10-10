@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ColliderEnter : MonoBehaviour {
 
     AudioSource audioSource;
+    int score = 0;
     private void Start()
     {
         audioSource = gameObject.GetComponent<AudioSource>();
@@ -12,11 +11,13 @@ public class ColliderEnter : MonoBehaviour {
     void OnTriggerEnter(Collider other)
     {
         if (other.tag == "barrier" || other.tag == "bodyPart")
-            Debug.Log("enter");
+            UIManager.instance.GameOver(score);
         if (other.tag == "food")
         {
+            score += 10;
+            UIManager.instance.AddScore(score);
             audioSource.Play();
-            Destroy(other.gameObject);
+            Destroy(other.gameObject,0.2f);
             SnakeMove.instance.AddBodyPart();
             SpawnFood.instance.DecreaseFood();
         }
