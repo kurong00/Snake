@@ -48,10 +48,10 @@ public class SnakeMove : MonoBehaviour
         if (JoyStick.instance.Vertical > 0|| Input.GetKey(KeyCode.UpArrow))
             currentSpeed *= 2;
         bodyParts[0].Translate(bodyParts[0].forward * currentSpeed * Time.smoothDeltaTime, Space.World);
-        if (JoyStick.instance.Horizon > 0 || Input.GetAxis("Horizontal") > 0)
+        if (Input.GetAxis("Horizontal") != 0)
             bodyParts[0].Rotate(Vector3.up * rotateSpeed * Time.deltaTime);
-        if (JoyStick.instance.Horizon < 0 || Input.GetAxis("Horizontal") < 0)
-            bodyParts[0].Rotate(-Vector3.up * rotateSpeed * Time.deltaTime);
+        if (JoyStick.instance.Horizon != 0)
+            bodyParts[0].Rotate(Vector3.up * rotateSpeed * Time.deltaTime * JoyStick.instance.Horizon / JoyStick.instance.dragSpeed);
         if (bodyParts.Count != 0)
         {
             for (int i = 1; i < bodyParts.Count; i++)

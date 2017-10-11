@@ -8,8 +8,6 @@ public class JoyStick : MonoBehaviour, IDragHandler, IEndDragHandler
 
     public float dragSpeed = 6f;
 
-    public float R = 15f;
-
     private float screen;
 
     private Vector2 centerPos;
@@ -45,7 +43,7 @@ public class JoyStick : MonoBehaviour, IDragHandler, IEndDragHandler
     }
     void Start()
     {
-        screen = 1f * Screen.width / 960f * R; 
+        screen = 1f * Screen.width / 40; 
         centerPos = GetComponent<RectTransform>().position;
     }
     void GetAxis(Vector2 pos)
